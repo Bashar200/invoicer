@@ -47,7 +47,7 @@ export default function UploadButton() {
         formData.append("file", selectedFile || selectedExcel);
     
         axios
-          .post(`http://192.168.5.42:80/invoice/gupshup/whatsapp?vendor_name=${vendor}&mode=${mode}`, formData)
+          .post(`http://192.168.5.213:80/invoice?vendor_name=${vendor}&mode=${mode}`, formData)
           .then((response) => {
             console.log("File uploaded successfully:", response.data);
           })
@@ -165,7 +165,7 @@ export default function UploadButton() {
         </IconButton>
       </label>
       <p style={paragraphStyle}>
-        <i>*upload vendor invoice</i>
+        <i>*upload zip file</i>
       </p>
 
       <Button
