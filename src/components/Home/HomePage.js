@@ -108,6 +108,10 @@ export default function MiniDrawer() {
 
   const handleItemClick = (text, event) => {
     console.log(event)
+    if (text==='Home')
+    {
+      window.location.reload(true);
+    }
     setCurrComponent(text);
   };
 
@@ -169,7 +173,7 @@ export default function MiniDrawer() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {/* <Table/> */}
-        {currComponent === 'Home' && <FileUpload />}
+        {currComponent === 'Home' && <FileUpload /> }
         {currComponent === 'History' && <Table />}
         {/* <ExcelUpload/> */}
         {/* <ActivityTimeline/> */}
