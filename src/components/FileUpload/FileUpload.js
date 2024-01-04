@@ -17,28 +17,31 @@ import ChannelDropdown from '../ChannelDropdown/ChannelDropdown.js';
 
 
 export default function UploadButton() {
-  const [selectedFile, setSelectedFile] = useState([]);
-  const handleFileChange = (event) => {
-    const files = event.target.files;
-    setSelectedFile(Array.from(files));
-  };
-  const handleUpload = () => {
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
+    const [selectedFile, setSelectedFile] = useState(null);
 
-      axios
-        .post("https://testing9353.free.beeceptor.com", formData)
-        .then((response) => {
-          console.log("File uploaded successfully:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-        });
-    } else {
-      console.error("No file selected for upload.");
-    }
-  };
+    const handleFileChange = (event) => {
+      const files = event.target.files;
+      setSelectedFile(files[0]); // Assuming you only want to handle one file
+    };
+    
+    const handleUpload = () => {
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+    
+        axios
+          .post("http://192.168.5.42:80/uploadInvoice", formData)
+          .then((response) => {
+            console.log("File uploaded successfully:", response.data);
+          })
+          .catch((error) => {
+            console.error("Error uploading file:", error);
+          });
+      } else {
+        console.error("No file selected for upload.");
+      }
+    };
+    
 
   const containerStyle = {
     display: "flex",
