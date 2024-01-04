@@ -6,7 +6,6 @@ import TextField from "@material-ui/core/TextField";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import axios from "axios";
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Input } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
@@ -17,29 +16,32 @@ import ChannelDropdown from '../ChannelDropdown/ChannelDropdown.js';
 
 
 
-export default function UploadButton() {
-  const [selectedFile, setSelectedFile] = useState([]);
-  const handleFileChange = (event) => {
-    const files = event.target.files;
-    setSelectedFile(Array.from(files));
-  };
-  const handleUpload = () => {
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
+export default function UploadExcel() {
+    const [selectedFile, setSelectedFile] = useState(null);
 
-      axios
-        .post("https://testing9353.free.beeceptor.com", formData)
-        .then((response) => {
-          console.log("File uploaded successfully:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-        });
-    } else {
-      console.error("No file selected for upload.");
-    }
-  };
+    const handleFileChange = (event) => {
+      const files = event.target.files;
+      setSelectedFile(files[0]);
+    };
+    
+    const handleUpload = () => {
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+    
+        axios
+          .post("http://192.168.5.42:80/uploadInvoice", formData)
+          .then((response) => {
+            console.log("File uploaded successfully:", response.data);
+          })
+          .catch((error) => {
+            console.error("Error uploading file:", error);
+          });
+      } else {
+        console.error("No file selected for upload.");
+      }
+    };
+    
 
   const containerStyle = {
     display: "flex",
@@ -74,7 +76,7 @@ export default function UploadButton() {
       />
       <label htmlFor="fileInput">
         <IconButton color="primary" component="span">
-        <FolderCopyIcon className="svg_icons"/>
+        <AddCircleOutlinedIcon className="svg_icons"/>
         </IconButton>
       </label>
       <p style={paragraphStyle}>
