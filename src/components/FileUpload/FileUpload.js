@@ -14,12 +14,23 @@ import IconButton from '@mui/material/IconButton';
 import styles from './FileUpload.css';
 import ChannelDropdown from '../ChannelDropdown/ChannelDropdown.js';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
-
-
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import Select from '@mui/material/Select';
 
 export default function UploadButton() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [selectedExcel, setSelectedExcel] = useState(null);
+    const [vendor, setVendor] = React.useState('gupshup');
+    const [mode, setMode] = React.useState('email');
+
+    const handleChangeVendor = (event) => {
+      setVendor(event.target.value);
+    };
+
+    const handleChangeMode = (event) => {
+      setMode(event.target.value);
+    };
 
     const handleFileChange = (event) => {
       const files = event.target.files;
@@ -36,7 +47,7 @@ export default function UploadButton() {
         formData.append("file", selectedFile || selectedExcel);
     
         axios
-          .post("http://192.168.5.42:80/invoice/gupshup/whatsapp", formData)
+          .post(`http://192.168.5.42:80/uploadInvoice?vendor_name=${vendor}&mode=${mode}`, formData)
           .then((response) => {
             console.log("File uploaded successfully:", response.data);
           })
@@ -47,15 +58,22 @@ export default function UploadButton() {
         console.error("No file selected for upload.");
       }
     };
-    
+
 
   const containerStyle = {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      border: "1px dotted #000",
+      height: "200px",
+      marginTop: "20px"
+    };
+  const containerStyle1 = {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "center",
-    border: "1px dotted #000",
     height: "200px",
-    marginTop: "20px"
+    width: "100%"
   };
   const containerStyle2 = {
     display: "flex",
@@ -63,6 +81,7 @@ export default function UploadButton() {
     alignItems: "center",
     padding: "60px 5px 0 0",
     height: "200px",
+    margin: "auto"
   };
 
   const paragraphStyle = {
@@ -73,6 +92,37 @@ export default function UploadButton() {
   return (
     <div>
     <div style={containerStyle}>
+    <div style={containerStyle1}>
+      <div style={{ position: "absolute"}}>
+      <FormControl sx={{ m: 1, minWidth: 100}}>
+        <Select
+          value={vendor}
+          onChange={handleChangeVendor}
+          displayEmpty
+          inputProps={{ 'aria-label': 'vendor' }}
+        >
+          <MenuItem value="gupshup">
+            <em>Gupshup</em>
+          </MenuItem>
+          <MenuItem value={"sendgrid"}>Sendgrid</MenuItem>
+        </Select>
+        <FormHelperText>Vendor</FormHelperText>
+      </FormControl>
+      <FormControl sx={{ m: 1, minWidth: 100}}>
+        <Select
+          value={mode}
+          onChange={handleChangeMode}
+          displayEmpty
+          inputProps={{ 'aria-label': 'Mode' }}
+        >
+          <MenuItem value="email">
+            <em>Email</em>
+          </MenuItem>
+          <MenuItem value={"sms"}>SMS</MenuItem>
+        </Select>
+        <FormHelperText>Mode</FormHelperText>
+      </FormControl>
+      </div>
         <div style={containerStyle2}>
       <Input
         type="file"
@@ -98,6 +148,7 @@ export default function UploadButton() {
       >submit</Button>
       </div>
       <div></div>
+    </div>
     </div>
     <div style={containerStyle}>
         <div style={containerStyle2}>
