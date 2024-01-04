@@ -120,7 +120,7 @@ Row.propTypes = {
 
 const rows = [
   createData('Gupshup', 159, 6.0, 24, 4.0, 3.99),
-  createData('Infobip', 237, 9.0, 37, 4.3, 4.99),
+  createData('Sendgrid', 237, 9.0, 37, 4.3, 4.99),
 ];
 
 export default function CollapsibleTable() {

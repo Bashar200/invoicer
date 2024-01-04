@@ -18,10 +18,12 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import Table from '../Table/Table.js';
 import FileUpload from '../FileUpload/FileUpload.js';
-import ExcelUpload from '../ExcelUpload/ExcelUpload.js';
-import ActivityTimeline from '../ActivityTimeline/ActivityTimeline.js';
+import TableRowsIcon from '@mui/icons-material/TableRows';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 
 
 const drawerWidth = 240;
@@ -94,6 +96,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [currComponent , setCurrComponent]  = React.useState('Home');
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -101,6 +104,11 @@ export default function MiniDrawer() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleItemClick = (text, event) => {
+    console.log(event)
+    setCurrComponent(text);
   };
 
   return (
@@ -133,8 +141,8 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+          {[{text: 'Home',rank: <InboxIcon /> }, {text:'Open', rank: <RadioButtonCheckedOutlinedIcon/> },{text:'History', rank: <TableRowsIcon/> }, {text: 'Completed', rank:<CheckOutlinedIcon/> }].map((val, index) => (
+            <ListItem id={val.text} key={val.text} disablePadding sx={{ display: 'block' }} onClick={(event) => handleItemClick(val.text, event)}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -149,9 +157,9 @@ export default function MiniDrawer() {
                     justifyContent: 'center',
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {val.rank}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={val.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -160,8 +168,9 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Table/>
-        <FileUpload/>
+        {/* <Table/> */}
+        {currComponent === 'Home' && <FileUpload />}
+        {currComponent === 'History' && <Table />}
         {/* <ExcelUpload/> */}
         {/* <ActivityTimeline/> */}
       </Box>
