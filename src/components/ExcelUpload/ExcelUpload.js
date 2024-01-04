@@ -2,24 +2,18 @@ import React from "react";
 import { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import TextField from "@material-ui/core/TextField";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import axios from "axios";
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { Input } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import styles from './ExcelUpload.css';
-import ChannelDropdown from '../ChannelDropdown/ChannelDropdown.js';
 
-
-
-export default function UploadExcel() {
+export default function ExcelUpload() {
     const [selectedFile, setSelectedFile] = useState(null);
-
+    console.log({selectedFile})
     const handleFileChange = (event) => {
+        console.log(event.target)
+        return
       const files = event.target.files;
       setSelectedFile(files[0]);
     };
@@ -28,11 +22,16 @@ export default function UploadExcel() {
       if (selectedFile) {
         const formData = new FormData();
         formData.append("file", selectedFile);
-    
+        
         axios
-          .post("http://192.168.5.42:80/uploadInvoice", formData)
+          .post("http://192.168.5.42:80/invoice/gupshup/whatsapp", formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
           .then((response) => {
             console.log("File uploaded successfully:", response.data);
+            
           })
           .catch((error) => {
             console.error("Error uploading file:", error);
@@ -41,6 +40,7 @@ export default function UploadExcel() {
         console.error("No file selected for upload.");
       }
     };
+    
     
 
   const containerStyle = {
@@ -71,21 +71,26 @@ export default function UploadExcel() {
         type="file"
         id="fileInput"
         style={{ display: 'none' }}
-        onChange={handleFileChange}
+        onChange={(e)=>{
+            console.log(e)
+        }}
+        onFocus={()=>{
+            console.log('focud')
+        }}
         multiple
       />
       <label htmlFor="fileInput">
         <IconButton color="primary" component="span">
-        <AddCircleOutlinedIcon className="svg_icons"/>
+        <FolderCopyIcon className="svg_icons_1"/>
         </IconButton>
       </label>
       <p style={paragraphStyle}>
-        <i>*upload vendor invoice</i>
+        <i>*upload excel zip</i>
       </p>
 
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         startIcon={<CloudUploadIcon />}
         onClick={handleUpload}
       >submit</Button>

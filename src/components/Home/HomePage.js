@@ -162,7 +162,7 @@ export default function MiniDrawer() {
         <DrawerHeader />
         <Table/>
         <FileUpload/>
-        <ExcelUpload/>
+        {/* <ExcelUpload/> */}
         {/* <ActivityTimeline/> */}
       </Box>
     </Box>
