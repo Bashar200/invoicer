@@ -19,7 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import Table from '../Table/Table.js';
+import DataGridDemo from '../Table/Table.js';
 import FileUpload from '../FileUpload/FileUpload.js';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -176,7 +176,7 @@ export default function MiniDrawer() {
         <DrawerHeader />
         {/* <Table/> */}
         {currComponent === 'Home' && <FileUpload /> }
-        {currComponent === 'History' && <Table />}
+        {currComponent === 'History' && <DataGridDemo />}
         {currComponent === 'Open' && <OpenApproval />}
         {currComponent === 'Completed' && <CompletedApproval />}
         {/* <ExcelUpload/> */}
