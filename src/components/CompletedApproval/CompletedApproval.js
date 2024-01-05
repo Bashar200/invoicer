@@ -57,7 +57,7 @@ const MyDropdown = ({vendor , vendorCount}) => {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.5.213:80/vendors/distinct');
+        const response = await axios.get('http://192.168.5.42:80/vendors/distinct');
         setData([...response.data.map((e) => e.vendor_name)]);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -103,7 +103,7 @@ const MyDropdown2 = ({month_ , monthCount}) => {
   // React.useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const response = await axios.get('http://192.168.5.213:80/vendors/distinct');
+  //       const response = await axios.get('http://192.168.5.42:80/vendors/distinct');
   //       console.log([...data,response.data.map((e) => e.vendor_name)]);
   //       setData([...response.data.map((e) => e.vendor_name)]);
   //     } catch (error) {
@@ -166,7 +166,7 @@ export default function DataTable() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://192.168.5.213:80/invoice-request?is_completed=true`);
+        const response = await axios.get(`http://192.168.5.42:80/invoice-request?is_completed=true`);
         console.log(response.data);
         setListData(response.data);
       } catch (error) {

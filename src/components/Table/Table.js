@@ -3,7 +3,7 @@ import axios from "axios";
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
-const url = "http://192.168.5.213:80"
+const url = "http://192.168.5.42:80"
 
 // export default function DataGridDemo () {
 //   const [rows, setRows] = React.useState({});
@@ -80,7 +80,7 @@ function Grid1() {
       return []
     let cols = []
     for(let key in rows1[0])
-      cols.push({"field": key, "headerName": key})
+      cols.push({"field": key, "headerName": key, flex: 1})
     setColumns(cols)
   }
 
@@ -138,7 +138,7 @@ function Grid2() {
       return []
     let cols = []
     for(let key in rows2[0])
-      cols.push({"field": key, "headerName": key})
+      cols.push({"field": key, "headerName": key, flex: 1})
     setColumns(cols)
   }
 
