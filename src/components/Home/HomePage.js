@@ -23,6 +23,8 @@ import Table from '../Table/Table.js';
 import FileUpload from '../FileUpload/FileUpload.js';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import OpenApproval from '../OpenApproval/OpenApproval.js';
+import CompletedApproval from '../CompletedApproval/CompletedApproval.js';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 
 
@@ -175,6 +177,8 @@ export default function MiniDrawer() {
         {/* <Table/> */}
         {currComponent === 'Home' && <FileUpload /> }
         {currComponent === 'History' && <Table />}
+        {currComponent === 'Open' && <OpenApproval />}
+        {currComponent === 'Completed' && <CompletedApproval />}
         {/* <ExcelUpload/> */}
         {/* <ActivityTimeline/> */}
       </Box>
