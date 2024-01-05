@@ -134,19 +134,19 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            FinWizard Beta
-          </Typography>
           <div>
           <img src={require('./logo.png')} alt=''  style={{
-          maxWidth: '10%',  
-          maxHeight: '10%', 
+          maxWidth: '50px',  
+          maxHeight: '50px', 
           height: 'auto', 
           padding:'10px',
           marginRight:'0px'   
         }}/>
 
           </div>
+          <Typography variant="h6" noWrap component="div">
+            FinWizard Beta
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
