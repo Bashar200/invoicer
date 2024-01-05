@@ -109,7 +109,7 @@ function Grid1() {
   },[rows1]);
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400, width: '100%', padding:10}}>
       <DataGrid
         rows={rows1}
         columns={columns1}
@@ -118,7 +118,6 @@ function Grid1() {
             paginationModel: { page: page1, pageSize: 5 },
           },
         }}
-        rowCount={10}
         pageSizeOptions={[5, 10]}
         // checkboxSelection
         // onPageChange={getRows}
@@ -168,7 +167,7 @@ function Grid2() {
   },[rows2]);
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400, width: '100%', padding:10}}>
       <DataGrid
         rows={rows2}
         columns={columns2}
@@ -177,7 +176,6 @@ function Grid2() {
             paginationModel: { page: page2, pageSize: 5 },
           },
         }}
-        rowCount={10}
         pageSizeOptions={[5, 10]}
         // checkboxSelection
         // onPageChange={getRows}
