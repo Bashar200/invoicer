@@ -177,7 +177,6 @@ export default function UploadButton() {
         onClick={handleUpload}
       >submit</Button>
       </div>
-      <div></div>
     </div>
     </div>
 

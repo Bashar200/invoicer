@@ -1,148 +1,198 @@
+import axios from "axios";
+
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { DataGrid } from '@mui/x-data-grid';
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
+const url = "http://192.168.5.213:80"
 
-function Row(props) {
-  const { row } = props;
-  const [open, setOpen] = React.useState(false);
+// export default function DataGridDemo () {
+//   const [rows, setRows] = React.useState({});
+//   const [columns, setColumns] = React.useState({})
+//   const [page, setPage] = React.useState(0);
+//   const [vendors, setVendors] = React.useState([]);
+
+//   async function getRows () {
+//     var dat = {}
+//     vendors.map(async (vendor) => {
+//       var response = await axios.get(`${url}/invoice?vendor_name=${vendor}`)
+//       setRows({...rows, [vendor] : response.data})
+//         dat[vendor] = response.data
+//     })
+//     console.log(dat)
+//   }
+
+//   function getColumns () {
+//     let col = {}
+//     console.log(rows)
+//     vendors.map((vendor) => {
+//       if (!rows[vendor] || rows[vendor].length === 0)
+//       setColumns({[vendor] : []})
+//       else {
+//         let cols = []
+//         for(let key in rows[vendor][0])
+//           cols.push({"field": key, "headerName": key})
+//         setColumns({...columns, [vendor] : cols})
+//       }    
+//     })
+//   }
+//   React.useEffect(() => {
+//     setVendors(["gupshup", "abcd"])
+//   },[]);
+
+//   React.useEffect(() => {
+//     getRows()
+//   },[vendors]);
+
+//   React.useEffect(() => {
+//     getColumns()
+//   },[vendors,rows]);
+
+//   return (
+//     vendors.forEach((vendor) => {
+//       <div style={{ height: 400, width: '100%' }}>
+//       <DataGrid
+//         rows={rows[vendor]}
+//         columns={columns[vendor]}
+//         initialState={{
+//           pagination: {
+//             paginationModel: { page: 0, pageSize: 5 },
+//           },
+//         }}
+//         rowCount={10}
+//         pageSizeOptions={[5, 10]}
+//         // checkboxSelection
+//         // onPageChange={getRows}
+//         // onPaginationModelChange={getRows}
+//       />
+//     </div>
+//     })
+//   );
+// } 
+
+function Grid1() {
+
+  const [rows1, setRows] = React.useState([]);
+  const [columns1, setColumns] = React.useState([])
+  const [page1, setPage] = React.useState(0);
+
+  function getColumns () {
+    if (!rows1 || rows1.length === 0)
+      return []
+    let cols = []
+    for(let key in rows1[0])
+      cols.push({"field": key, "headerName": key})
+    setColumns(cols)
+  }
+
+  function getRows () {
+    let dat = null
+    axios
+      .get(`${url}/invoice?vendor_name=gupshup`)
+      .then((response) => {
+        console.log("Data fetched successfully:", response.data);
+        dat = response.data
+        setRows(dat)
+      })
+      .catch((error) => {
+        console.error("Error uploading file:", error);
+        dat = []
+      });
+    return dat
+  }
+
+  React.useEffect(() => {
+    getRows()
+  },[]);
+
+  React.useEffect(() => {
+    getColumns()
+  },[rows1]);
 
   return (
-    <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-        {/* <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell> */}
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                History
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>File Name</TableCell>
-                    <TableCell align="right">Success</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
+    <div style={{ height: 400, width: '100%', padding:10}}>
+      <DataGrid
+        rows={rows1}
+        columns={columns1}
+        initialState={{
+          pagination: {
+            paginationModel: { page: page1, pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5, 10]}
+        // checkboxSelection
+        // onPageChange={getRows}
+        // onPaginationModelChange={getRows}
+      />
+    </div>
   );
 }
 
-Row.propTypes = {
-  row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
-  }).isRequired,
-};
+function Grid2() {
 
-const rows = [
-  createData('Gupshup', 159, 6.0, 24, 4.0, 3.99),
-  createData('Sendgrid', 237, 9.0, 37, 4.3, 4.99),
-];
+  const [rows2, setRows] = React.useState([]);
+  const [columns2, setColumns] = React.useState([])
+  const [page2, setPage] = React.useState(0);
 
-export default function CollapsibleTable() {
+  function getColumns () {
+    if (!rows2 || rows2.length === 0)
+      return []
+    let cols = []
+    for(let key in rows2[0])
+      cols.push({"field": key, "headerName": key})
+    setColumns(cols)
+  }
+
+  function getRows () {
+    let dat = null
+    axios
+      .get(`${url}/invoice?vendor_name=abcd`)
+      .then((response) => {
+        console.log("Data fetched successfully:", response.data);
+        dat = response.data
+        setRows(dat)
+      })
+      .catch((error) => {
+        console.error("Error uploading file:", error);
+        dat = []
+      });
+    return dat
+  }
+
+  React.useEffect(() => {
+    getRows()
+  },[]);
+
+  React.useEffect(() => {
+    getColumns()
+  },[rows2]);
+
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Vendors</TableCell>
-            {/* <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div style={{ height: 400, width: '100%', padding:10}}>
+      <DataGrid
+        rows={rows2}
+        columns={columns2}
+        initialState={{
+          pagination: {
+            paginationModel: { page: page2, pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5, 10]}
+        // checkboxSelection
+        // onPageChange={getRows}
+        // onPaginationModelChange={getRows}
+      />
+    </div>
   );
+}
+
+export default function DataGridDemo () {
+  const style = {
+    padding: "10px"
+  }
+  return (
+    <>
+      <Grid1 style={style}/>
+      <Grid2 style={style}/>
+    </>
+  )
 }
