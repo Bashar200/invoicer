@@ -34,11 +34,11 @@ export default function UploadButton() {
 
     const handleFileChange = (event) => {
       const files = event.target.files;
-      setSelectedFile(files[0]); // Assuming you only want to handle one file
+      setSelectedFile(files[0]);
     };
     const handleExcelChange = (event) => {
         const files = event.target.files;
-        setSelectedExcel(files[0]); // Assuming you only want to handle one file
+        setSelectedExcel(files[0]);
       };
     
     const handleUpload = () => {
@@ -120,6 +120,7 @@ export default function UploadButton() {
             <em>Email</em>
           </MenuItem>
           <MenuItem value={"sms"}>SMS</MenuItem>
+          <MenuItem value={"whatsapp"}>Whatsapp</MenuItem>
         </Select>
         <FormHelperText>Mode</FormHelperText>
       </FormControl>
